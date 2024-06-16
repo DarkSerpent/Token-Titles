@@ -37,57 +37,60 @@ Hooks.on('createToken', (scene, token) => {
 });
 
 function updateTokenTitle(token) {
-  console.log('Updating token title for:', token);
-  const title = token.document.flags?.tokenTitle || '';
-  console.log('Token title is:', title);
+    const title = token.document.flags?.tokenTitle || '';
 
-  let nameplate = token.children.find(c => c.name === "nameplate");
-  if (!nameplate) {
-    console.log('Nameplate not found, creating new nameplate');
-    nameplate = new PIXI.Container();
-    nameplate.name = "nameplate";
-    token.addChild(nameplate);
-  } else {
-    console.log('Nameplate found');
-  }
+    let nameplate = token.children.find(c => c.name === "nameplate");
+    if (!nameplate) {
+        nameplate = new PIXI.Container();
+        nameplate.name = "nameplate";
+        token.addChild(nameplate);
+    }
 
-  let titleText = nameplate.children.find(c => c.name === "titleText");
-  if (titleText) {
-    console.log('Existing titleText found, destroying');
-    titleText.destroy();
-  }
+    const gridScaleFactor = canvas.dimensions.size / 72;
 
-  const style = new PIXI.TextStyle({
-    fontFamily: 'Signika',
-    fontSize: 14,
-    fill: '#f0f0e0',
-    stroke: '#111111',
-    strokeThickness: 2,
-    dropShadow: true,
-    dropShadowColor: '#000000',
-    dropShadowBlur: 0,
-    dropShadowAngle: Math.PI / 6,
-    dropShadowDistance: 1,
-    align: 'center'
-  });
+    const originalWidth = 1;
+    const originalHeight = 1;
 
-  titleText = new PIXI.Text(title, style);
-  titleText.anchor.set(0.5, 0);
-  titleText.resolution = 5;
+    const tokenWidth = token.data && token.data.width !== undefined ? token.data.width : originalWidth;
+    const tokenHeight = token.data && token.data.height !== undefined ? token.data.height : originalHeight;
 
-  titleText.x = nameplate.width + 34;
-  titleText.y = -20;
+    const originalFontSize = 14;
+    const adjustedFontSize = Math.round(originalFontSize * gridScaleFactor * Math.max(tokenWidth, tokenHeight));
 
-  titleText.name = "titleText";
-  nameplate.addChild(titleText);
+    const adjustedX = Math.round((nameplate.width + 34) * gridScaleFactor);
+
+    const originalY = -20;
+    const adjustedY = Math.round(originalY * gridScaleFactor);
+
+    let titleText = nameplate.children.find(c => c.name === "titleText");
+    if (titleText) {
+        titleText.destroy();
+    }
+
+    const style = new PIXI.TextStyle({
+        fontFamily: 'Signika',
+        fontSize: adjustedFontSize,
+        fill: '#f0f0e0',
+        stroke: '#111111',
+        strokeThickness: 2,
+        dropShadow: true,
+        dropShadowColor: '#000000',
+        dropShadowBlur: 0,
+        dropShadowAngle: Math.PI / 6,
+        dropShadowDistance: 1,
+        align: 'center'
+    });
+
+    titleText = new PIXI.Text(title, style);
+    titleText.anchor.set(0.5, 0);
+    titleText.resolution = 5;
+
+    titleText.x = adjustedX;
+    titleText.y = adjustedY;
+
+    titleText.name = "titleText";
+    nameplate.addChild(titleText);
 }
-
-Hooks.on('canvasReady', () => {
-  console.log('canvasReady hook triggered');
-  canvas.tokens.placeables.forEach(token => {
-    updateTokenTitle(token);
-  });
-});
 
 Hooks.on('drawToken', token => {
   console.log('drawToken hook triggered');
