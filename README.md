@@ -7,3 +7,8 @@
 * It only works on scale 1:1 tokens and height/width 1x1 tokens for now, although it should work on all grid sizes.
 
 ![alt text](https://i.ibb.co/10gHzPH/image.png)
+
+## Import Link
+```
+https://raw.githubusercontent.com/DarkSerpent/Token-Titles/main/module.json
+```
