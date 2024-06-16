@@ -48,18 +48,12 @@ function updateTokenTitle(token) {
 
     const gridScaleFactor = canvas.dimensions.size / 72;
 
-    const originalWidth = 1;
-    const originalHeight = 1;
-
-    const tokenWidth = token.data && token.data.width !== undefined ? token.data.width : originalWidth;
-    const tokenHeight = token.data && token.data.height !== undefined ? token.data.height : originalHeight;
-
     const originalFontSize = 14;
-    const adjustedFontSize = Math.round(originalFontSize * gridScaleFactor * Math.max(tokenWidth, tokenHeight));
+    const adjustedFontSize = Math.round(originalFontSize * gridScaleFactor);
 
-    const adjustedX = Math.round((nameplate.width + 34) * gridScaleFactor);
-
+    const originalX = 0; // Adjust as needed based on your layout
     const originalY = -20;
+    const adjustedX = Math.round((originalX + 34) * gridScaleFactor);
     const adjustedY = Math.round(originalY * gridScaleFactor);
 
     let titleText = nameplate.children.find(c => c.name === "titleText");
@@ -83,7 +77,6 @@ function updateTokenTitle(token) {
 
     titleText = new PIXI.Text(title, style);
     titleText.anchor.set(0.5, 0);
-    titleText.resolution = 5;
 
     titleText.x = adjustedX;
     titleText.y = adjustedY;
