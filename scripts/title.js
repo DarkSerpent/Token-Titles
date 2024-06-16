@@ -51,7 +51,7 @@ function updateTokenTitle(token) {
     const originalFontSize = 14;
     const adjustedFontSize = Math.round(originalFontSize * gridScaleFactor);
 
-    const originalX = 0; // Adjust as needed based on your layout
+    const originalX = 0;
     const originalY = -20;
     const adjustedX = Math.round((originalX + 34) * gridScaleFactor);
     const adjustedY = Math.round(originalY * gridScaleFactor);
