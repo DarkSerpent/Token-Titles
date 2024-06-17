@@ -80,6 +80,7 @@ function updateTokenTitle(token) {
 
     titleText.x = adjustedX;
     titleText.y = adjustedY;
+    titleText.resolution = 5;
 
     titleText.name = "titleText";
     nameplate.addChild(titleText);
